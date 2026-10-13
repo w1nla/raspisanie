@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Расписание 4 СИЛМО</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f5f0;--surface:#fff;--ink:#16231c;--muted:#5d6b63;--line:#dfe6e0;--accent:#1f6b4a;--on-accent:#fff;--soft:#e6f0ea;
+--lk:#4a5fc1;--pz:#b86e0c;--lr:#12806f;--fk:#a8456a;--shadow:0 1px 2px rgba(22,35,28,.06),0 6px 18px rgba(22,35,28,.05);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1511;--surface:#16201b;--ink:#e8efe9;--muted:#93a399;--line:#25322b;--accent:#5ccf9b;--on-accent:#0b1a12;--soft:#1b2a22;
+--lk:#8da0ff;--pz:#f0b259;--lr:#4fd1bd;--fk:#f08fb2;--shadow:none;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1511;--surface:#16201b;--ink:#e8efe9;--muted:#93a399;--line:#25322b;--accent:#5ccf9b;--on-accent:#0b1a12;--soft:#1b2a22;
+--lk:#8da0ff;--pz:#f0b259;--lr:#4fd1bd;--fk:#f08fb2;--shadow:none;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.45 "Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding:16px 14px 56px}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+h1{font-size:22px;line-height:1.2;margin:0;font-weight:700;letter-spacing:-.01em}
+h1 small{display:block;font-size:13px;font-weight:500;color:var(--muted);margin-top:2px}
+.tools{display:flex;gap:8px}
+.chip-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;height:38px;padding:0 14px;cursor:pointer;font-weight:600;font-size:14px}
+.chip-btn:hover{border-color:var(--accent)}
+.chip-btn.sq{width:38px;padding:0;display:grid;place-items:center}
+.hero{background:var(--accent);color:var(--on-accent);border-radius:20px;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:14px}
+.hero .lbl{font-size:13px;opacity:.8}
+.hero .ttl{font-size:18px;font-weight:700;line-height:1.25;margin:2px 0}
+.hero .sub{font-size:14px;opacity:.9}
+.hero .cnt{font-size:26px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.weekbar{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:8px;margin-bottom:16px;box-shadow:var(--shadow)}
+.weekbar .mid{text-align:center;flex:1;cursor:pointer;border:0;background:none;padding:2px}
+.weekbar .mid b{display:block;font-size:16px}
+.weekbar .mid span{font-size:13px;color:var(--muted)}
+.arrow{width:40px;height:40px;border-radius:12px;border:0;background:var(--soft);cursor:pointer;font-size:18px;color:var(--accent)}
+.day{margin-bottom:14px}
+.dh{display:flex;align-items:baseline;gap:10px;padding:0 4px 6px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:2}
+.dh h2{margin:0;font-size:16px;font-weight:700}
+.dh span{color:var(--muted);font-size:13px}
+.day.today .dh h2{color:var(--accent)}
+.day.today .dh span{color:var(--accent);font-weight:600}
+.list{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.day.today .list{border-color:var(--accent)}
+.les{display:grid;grid-template-columns:58px 1fr;gap:12px;padding:12px 14px;border-top:1px solid var(--line);position:relative}
+.les:first-child{border-top:0}
+.les::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c)}
+.les.now{background:var(--soft)}
+.les.done .nm{text-decoration:line-through;opacity:.5}
+.tm{font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;line-height:1.25}
+.tm i{display:block;font-style:normal;color:var(--muted);font-weight:400;font-size:13px}
+.nm{font-weight:600;line-height:1.3}
+.meta{color:var(--muted);font-size:13px;margin-top:2px}
+.tag{display:inline-block;font-size:12px;font-weight:700;color:var(--c);border:1px solid var(--c);border-radius:6px;padding:0 6px;margin-right:6px;vertical-align:1px}
+.row2{display:flex;gap:8px;align-items:center;margin-top:8px}
+.hw{flex:1;min-width:0;border:1px dashed var(--line);background:transparent;border-radius:8px;padding:5px 9px;font-size:13px}
+.hw::placeholder{color:var(--muted)}
+.hw:focus{border-style:solid;border-color:var(--accent);outline:0}
+.ck{width:20px;height:20px;accent-color:var(--accent);cursor:pointer}
+.free{padding:14px;color:var(--muted);font-size:14px}
+.note{font-size:13px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:6px}
+.lk{--c:var(--lk)}.pz{--c:var(--pz)}.lr{--c:var(--lr)}.fk{--c:var(--fk)}
+dialog{border:0;border-radius:22px;padding:26px 22px 22px;background:var(--surface);color:var(--ink);width:min(380px,calc(100% - 32px));box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(8,14,11,.6);backdrop-filter:blur(4px)}
+dialog h2{margin:0 0 6px;font-size:20px}
+dialog p{margin:0 0 18px;color:var(--muted)}
+.pick{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pick button{border:1.5px solid var(--line);background:var(--bg);border-radius:16px;padding:18px 8px;cursor:pointer;font-weight:700;font-size:16px}
+.pick button small{display:block;font-weight:400;color:var(--muted);font-size:13px;margin-top:2px}
+.pick button:hover{border-color:var(--accent);background:var(--soft)}
+@media (prefers-reduced-motion:no-preference){
+body,.hero,.weekbar,.list,.les,.dh,.tag,.hw,dialog,.note,.nm{transition:background-color .4s ease,color .4s ease,border-color .4s ease,box-shadow .4s ease,opacity .25s ease}
+.chip-btn,.arrow,.pick button,.weekbar .mid{transition:background-color .4s ease,color .4s ease,border-color .4s ease,transform .18s cubic-bezier(.2,.8,.2,1)}
+.chip-btn:hover,.pick button:hover{transform:translateY(-1px)}
+.chip-btn:active,.pick button:active,.arrow:active,.weekbar .mid:active{transform:scale(.93)}
+.arrow:hover{background:var(--accent);color:var(--on-accent)}
+.ck{transition:transform .2s cubic-bezier(.2,.8,.2,1)}.ck:active{transform:scale(.8)}
+.sw{animation:sw .32s cubic-bezier(.2,.8,.2,1)}@keyframes sw{from{opacity:0;transform:translateX(var(--dx,0))}}
+dialog[open]{animation:in .26s cubic-bezier(.2,.8,.2,1)}@keyframes in{from{opacity:0;transform:translateY(10px) scale(.97)}}
+dialog[open]::backdrop{animation:fade .26s ease-out}@keyframes fade{from{opacity:0}}
+}
+</style>
+</head>
+<body>
+<dialog id="dlg">
+  <h2>Выберите подгруппу</h2>
+  <p>От неё зависят лабораторные во вторник. Позже можно сменить.</p>
+  <div class="pick">
+    <button data-s="1">1<small>подгруппа</small></button>
+    <button data-s="2">2<small>подгруппа</small></button>
+  </div>
+</dialog>
+
+<div class="wrap">
+  <header>
+    <h1>4 СИЛМО<small>II курс · осень 2026/27</small></h1>
+    <div class="tools">
+      <button class="chip-btn" id="subBtn" aria-label="Сменить подгруппу"></button>
+      <button class="chip-btn sq" id="themeBtn" aria-label="Сменить тему">◐</button>
+    </div>
+  </header>
+
+  <section class="hero" aria-live="polite">
+    <div><div class="lbl" id="hLbl"></div><div class="ttl" id="hTtl"></div><div class="sub" id="hSub"></div></div>
+    <div class="cnt" id="hCnt"></div>
+  </section>
+
+  <nav class="weekbar">
+    <button class="arrow" id="prev" aria-label="Предыдущая неделя">←</button>
+    <button class="mid" id="today" title="Вернуться к текущей неделе"><b id="wTtl"></b><span id="wDates"></span></button>
+    <button class="arrow" id="next" aria-label="Следующая неделя">→</button>
+  </nav>
+
+  <main id="days"></main>
+
+</div>
+
+<script>
+const SLOTS=[["8:00","9:25"],["9:35","11:00"],["11:25","12:50"],["13:00","14:25"],["14:40","16:05"]];
+const DAYS=["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"];
+const MON=["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+const T={лк:"lk",пз:"pz",лр:"lr",фк:"fk"};
+// d: день (1–6), s: пара (0–4), w: неделя (I/II), t: тип, n: предмет, r: аудитория, p: преподаватель, from: с даты, g: подгруппа
+const L=[
+{d:1,s:4,w:"II",t:"пз",n:"Технология лесосечных и лесоскладских работ",r:"10-4",p:"Беляков"},
+{d:1,s:1,t:"лр",n:"Физика",r:"506, 512, 503, 513",p:"Миксюк"},
+{d:1,s:2,t:"лк",n:"Теоретическая механика",r:"310-4",p:"Шошин"},
+{d:1,s:3,w:"I",t:"лк",n:"Основы теории движения лесотранспортных машин",r:"10-4",p:"Гороновский"},
+{d:1,s:3,w:"II",t:"пз",n:"Основы теории движения лесотранспортных машин",r:"10-4",p:"Гороновский"},
+{d:2,s:0,t:"пз",n:"Физика",r:"508-1",p:"Миксюк"},
+{d:2,s:1,t:"фк",n:"Физическая культура"},
+{d:2,s:2,w:"I",g:1,t:"лр",n:"Лесотранспортные машины",r:"6-4",p:"Гороновский"},
+{d:2,s:2,w:"II",g:1,t:"лр",n:"Механика материалов",r:"121-1",p:"Ярмолик"},
+{d:2,s:2,w:"I",g:2,t:"лр",n:"Механика материалов",r:"121-1",p:"Ярмолик"},
+{d:2,s:2,w:"II",g:2,t:"лр",n:"Лесотранспортные машины",r:"6-4",p:"Гороновский"},
+{d:3,s:1,w:"I",t:"лк",n:"Высшая математика",r:"308а-4",p:"Соловьёва"},
+{d:3,s:1,w:"II",t:"пз",n:"Высшая математика",r:"308а-4",p:"Соловьёва"},
+{d:3,s:2,t:"лк",n:"Лесотранспортные машины",r:"10-4",p:"Гороновский"},
+{d:4,s:0,t:"лк",n:"Физика",r:"114-4",p:"Миксюк"},
+{d:4,s:1,t:"пз",n:"Английский язык",r:"2 общ",p:"Любочко"},
+{d:4,s:2,w:"I",t:"пз",n:"Лесотранспортные машины",r:"10-4",p:"Голякевич"},
+{d:4,s:2,w:"II",t:"лк",n:"Механика материалов",r:"401-4",p:"Ярмолик"},
+{d:4,s:3,t:"пз",n:"Механика материалов",r:"121-1",p:"Ярмолик"},
+{d:5,s:0,t:"лк",n:"Философия",r:"100-3а",p:"Потоцкий"},
+{d:5,s:1,t:"фк",n:"Физическая культура"},
+{d:5,s:2,t:"лк",n:"Технология лесосечных и лесоскладских работ",r:"101-4",p:"Мохов"},
+{d:5,s:3,t:"пз",n:"Теоретическая механика",r:"223-4",p:"Василевич"},
+{d:6,s:0,t:"пз",n:"Высшая математика",r:"105-4",p:"Соловьёва"},
+{d:6,s:1,t:"лк",n:"Высшая математика",r:"105-4",p:"Соловьёва"},
+{d:6,s:2,t:"пз",n:"Философия",r:"101-4",p:"Потоцкий",from:"2026-10-17"}
+];
+const START=new Date(2026,7,31); // понедельник недели, в которую входит 1 сентября → неделя I
+const $=id=>document.getElementById(id);
+const st={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v?localStorage.setItem(k,v):localStorage.removeItem(k)}catch(e){}}};
+let sub=st.get("sub"),off=0;
+const mondayOf=d=>{const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());x.setDate(x.getDate()-((x.getDay()+6)%7));return x};
+const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const wnum=d=>Math.round((mondayOf(d)-START)/604800000)+1;
+const wtype=d=>(((wnum(d)%2)+2)%2)?"I":"II";
+const mins=s=>{const[a,b]=s.split(":");return +a*60+ +b};
+function lessonsOn(date){
+  const dow=(date.getDay()+6)%7+1,w=wtype(date),k=iso(date);
+  return L.filter(l=>l.d===dow&&(!l.w||l.w===w)&&(!l.g||l.g==sub)&&(!l.from||k>=l.from))
+          .sort((a,b)=>a.s-b.s);
+}
+function fmt(m){const h=Math.floor(m/60),mm=m%60;return h?`${h} ч ${mm} мин`:`${mm} мин`}
+function hero(){
+  const now=new Date(),nm=now.getHours()*60+now.getMinutes();
+  let lbl="Сегодня пар больше нет",ttl="Можно отдохнуть",s="",cnt="";
+  for(let i=0;i<14;i++){
+    const d=addD(now,i);
+    for(const l of lessonsOn(d)){
+      const [a,b]=SLOTS[l.s].map(mins);
+      if(i===0&&nm>b)continue;
+      if(i===0&&nm>=a){lbl="Идёт сейчас";cnt=fmt(b-nm);s=`до ${SLOTS[l.s][1]}`}
+      else{
+        lbl=i===0?"Следующая пара":"Ближайшая пара";ttl="";
+        cnt=i===0?"через "+fmt(a-nm):"";
+        s=(i===0?"сегодня":i===1?"завтра":DAYS[(d.getDay()+6)%7].toLowerCase())+` в ${SLOTS[l.s][0]}`;
+      }
+      ttl=l.n;s+=l.r?` · ауд. ${l.r}`:"";
+      $("hLbl").textContent=lbl;$("hTtl").textContent=ttl;$("hSub").textContent=s;$("hCnt").textContent=cnt;return;
+    }
+  }
+  $("hLbl").textContent=lbl;$("hTtl").textContent=ttl;$("hSub").textContent="";$("hCnt").textContent="";
+}
+function render(){
+  $("subBtn").textContent=`Подгруппа ${sub||"?"}`;
+  const mon=addD(mondayOf(new Date()),off*7),sun=addD(mon,5),w=wtype(mon),n=wnum(mon);
+  $("wTtl").textContent=`${w} неделя${n>0?` · №${n}`:""}`;
+  $("wDates").textContent=`${mon.getDate()} ${MON[mon.getMonth()]} – ${sun.getDate()} ${MON[sun.getMonth()]}`;
+  const box=$("days");box.textContent="";
+  const now=new Date(),nm=now.getHours()*60+now.getMinutes();
+  DAYS.forEach((name,i)=>{
+    const date=addD(mon,i),isToday=iso(date)===iso(now),ls=lessonsOn(date);
+    const day=document.createElement("section");day.className="day"+(isToday?" today":"");
+    day.innerHTML=`<div class="dh"><h2>${name}</h2><span>${date.getDate()} ${MON[date.getMonth()]}${isToday?" · сегодня":""}</span></div>`;
+    const list=document.createElement("div");list.className="list";
+    if(!ls.length){const f=document.createElement("div");f.className="free";f.textContent="Пар нет";list.append(f)}
+    ls.forEach(l=>{
+      const key=`${iso(date)}:${l.s}`,[a,b]=SLOTS[l.s];
+      const el=document.createElement("div");
+      el.className=`les ${T[l.t]}`;
+      if(isToday&&nm>=mins(a)&&nm<=mins(b))el.classList.add("now");
+      const meta=[l.r&&`ауд. ${l.r}`,l.p].filter(Boolean).join(" · ");
+      el.innerHTML=`<div class="tm">${a}<i>${b}</i></div><div><div class="nm"><span class="tag">${l.t==="фк"?"фк":l.t}</span></div>${meta?`<div class="meta"></div>`:""}<div class="row2"><input class="hw" placeholder="Домашнее задание" aria-label="Домашнее задание"><input class="ck" type="checkbox" aria-label="Выполнено"></div></div>`;
+      el.querySelector(".nm").append(l.n);
+      if(meta)el.querySelector(".meta").textContent=meta;
+      const hw=el.querySelector(".hw"),ck=el.querySelector(".ck");
+      hw.value=st.get("hw:"+key)||"";
+      ck.checked=st.get("ck:"+key)==="1";
+      if(ck.checked)el.classList.add("done");
+      hw.oninput=()=>st.set("hw:"+key,hw.value.trim());
+      ck.onchange=()=>{st.set("ck:"+key,ck.checked?"1":"");el.classList.toggle("done",ck.checked)};
+      list.append(el);
+    });
+    day.append(list);box.append(day);
+  });
+  hero();
+}
+const dlg=$("dlg");
+function ask(){if(dlg.showModal){if(!dlg.open)dlg.showModal()}else dlg.setAttribute("open","")}
+dlg.querySelectorAll("button").forEach(b=>b.onclick=()=>{sub=b.dataset.s;st.set("sub",sub);dlg.close?dlg.close():dlg.removeAttribute("open");render()});
+dlg.addEventListener("cancel",e=>{if(!sub)e.preventDefault()});
+$("subBtn").onclick=ask;
+function flash(dx){const m=$("days");m.classList.remove("sw");void m.offsetWidth;m.style.setProperty("--dx",dx*16+"px");m.classList.add("sw")}
+$("prev").onclick=()=>{off--;render();flash(-1)};
+$("next").onclick=()=>{off++;render();flash(1)};
+$("today").onclick=()=>{off=0;render();flash(0)};
+$("themeBtn").onclick=()=>{
+  const r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  r.dataset.theme=dark?"light":"dark";st.set("theme",r.dataset.theme);
+};
+{const t=st.get("theme");if(t)document.documentElement.dataset.theme=t}
+if(sub!=="1"&&sub!=="2"){sub=null}
+render();
+if(!sub)ask();
+setInterval(hero,30000);
+</script>
+</body>
+</html>
